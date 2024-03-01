@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,7 +34,19 @@ public class Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.getWriter().append("Hello World!");
+		//response.getWriter().append("Hello World!");
+		response.setContentType("text/html");
+	      PrintWriter out = response.getWriter();
+	      String title = "Hello World";
+	      String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+	      out.println(docType + //
+	            "<html>\n" + //
+	            "<head><title>" + title + "</title></head>\n" + //
+	            "<body bgcolor=\"#f0f0f0\">\n" + //
+	            "<h2 align=\"center\">" + title + "</h2>\n");
+
+	      
+	      out.println("</body></html>");
 	}
 
 	/**
