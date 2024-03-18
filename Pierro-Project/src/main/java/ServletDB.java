@@ -30,7 +30,7 @@ password=mypassword
 
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
-      response.getWriter().println("-------- MySQL JDBC Connection Testing ------------<br> ");
+      response.getWriter().println("-------- MySQL College Progress Tracker ------------<br> ");
       // response.getWriter().println(url + "<br>");
       try {
          Class.forName("com.mysql.cj.jdbc.Driver");// ("com.mysql.jdbc.Driver");
@@ -39,7 +39,7 @@ password=mypassword
          e.printStackTrace();
          return;
       }
-      response.getWriter().println("MySQL JDBC Driver Registered!<br>");
+      //response.getWriter().println("MySQL JDBC Driver Registered!<br>");
       connection = null;
       try {
          connection = DriverManager.getConnection(url, user, password);
@@ -48,21 +48,22 @@ password=mypassword
          e.printStackTrace();
          return;
       }
-      if (connection != null) {
-         response.getWriter().println("You made it, take control your database now!<br>");
-      }
-      else {
+      if (connection == null) {
          System.out.println("Failed to make connection!");
       }
       try {
          String selectSQL = "SELECT * FROM PROGRESSTRACKERTABLE";// WHERE MYUSER LIKE ?";
          // String theUserName = "user%";
          // response.getWriter().println(selectSQL + "<br>");
-         response.getWriter().println("------------------------------------------<br>");
+         response.getWriter().println("---------------------------------------------------<br>");
          PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
          // preparedStatement.setString(1, theUserName);
          ResultSet rs = preparedStatement.executeQuery();
          //response.getWriter().println(rs);
+         //response.getWriter().println("NAME&nbsp&nbsp&nbsp&nbspEMAIL&nbsp&nbsp&nbsp&nbspSEMESTER&nbsp&nbsp&nbsp&nbspCollege<br>");
+         response.getWriter().println("<table> <tr> <th>Name</th> <th>Email</th> <th>Semester</th> <th>College</th> </tr>");
+         
+         //response.getWriter().println(":");
          while (rs.next()) {
             String id = rs.getString("ID");
             String username = rs.getString("FULLNAME");
@@ -71,11 +72,12 @@ password=mypassword
             String college = rs.getString("COLLEGE");
             
             //response.getWriter().append("USER ID: " + id + ", ");
-            response.getWriter().append("USER NAME: " + username + ", ");
-            response.getWriter().append("USER EMAIL: " + email + ", ");
-            response.getWriter().append("SEMESTER: " + semester + ", ");
-            response.getWriter().append("College: " + college + "<br>");
+            response.getWriter().append("<tr> <td>" + username + "</td>");
+            response.getWriter().append("<td>" + email + "</td>");
+            response.getWriter().append("<td>" + semester + "</td>");
+            response.getWriter().append("<td>" + college + "</td> </tr>");
          }
+         response.getWriter().println("</table>");
       } catch (SQLException e) {
          e.printStackTrace();
       }
