@@ -41,7 +41,7 @@ public class SearchDB extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 	void search(String keyword, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html");
+		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
 	            "transitional//en\">\n"; //
@@ -54,44 +54,45 @@ public class SearchDB extends HttpServlet {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    connection = null;
+
 	    try {
-	       connection = DriverManager.getConnection(url, user, password);
-	    } catch (SQLException e) {
-	       System.out.println("Connection Failed! Check output console");
-	       e.printStackTrace();
-	       return;
-	    }
-	    if (connection == null) {
-	       System.out.println("Failed to make connection!");
-	    }
-	    try {
+	    	DBConnection.getDBConnection(getServletContext());
+	    	connection = DBConnection.connection;
+	    	
 	    	String selectSQL;
 	    	if (keyword.isEmpty()) {
 	    		selectSQL = "SELECT * FROM PROGRESSTRACKERTABLE";
 	    		preparedStatement = connection.prepareStatement(selectSQL);
 	    	}
 	    	else {
-	    		selectSQL = "SELECT * FROM PROGRESSTRACKERTABLE WHERE FULLNAME LIKE ?";
+	    		selectSQL = "SELECT * FROM PROGRESSTRACKERTABLE WHERE " + keyword + " LIKE ?";
+	    		String searchTerm = keyword + "%";
+			    preparedStatement = connection.prepareStatement(selectSQL);
+			    preparedStatement.setString(1, searchTerm);
 	    	}
-            //String username = rs.getString("FULLNAME");
-            //String semester = rs.getString("SEMESTER");
-            //String email = rs.getString("EMAIL");
-            //String college = rs.getString("COLLEGE");
-	    	/*
-		    DBConnection.getDBConnection(getServletContext());
-		    connection = DBConnection.connection;
-	        if (keyword.isEmpty()) {
-	        	String selectSQL = "SELECT * FROM myTable";
-		        preparedStatement = connection.prepareStatement(selectSQL);
-	        } 
-	        else {
-	        	String selectSQL = "SELECT * FROM myTable WHERE MYUSER LIKE ?";
-	        }
-	        */
+	    	ResultSet rs = preparedStatement.executeQuery();
 	    	
-		    String theUserName = keyword + "%";
-		    preparedStatement = connection.prepareStatement(selectSQL);
-		    preparedStatement.setString(1, theUserName);
+	    	while (rs.next()) {
+	    		int id = rs.getInt("id");
+	    		String fullName = rs.getString("FULLNAME").trim();
+	    		String semester = rs.getString("SEMESTER").trim();
+	    		String email = rs.getString("EMAIL").trim();
+	    		String college = rs.getString("COLLEGE").trim();
+	    		
+	    		if (keyword.isEmpty() || fullName.contains(keyword)) {
+	    			out.println("ID: " + id + ", ");
+	    			out.println("Full Name: " + fullName + ",");
+	    			out.println("Semester: " + semester + ",");
+	    			out.println("Email: " + email + ",");
+	    			out.println("College: " + college + "<br>");
+	    		}
+	    	}
+	    	out.println("<a href=/TechExercise/FormInput.html>Search Data</a><br>");
+		    out.println("</body></html>");
+		    rs.close();
+		    preparedStatement.close();
+		    connection.close();
+
 	    }
 	    catch (Exception Ex){
 	    	Ex.printStackTrace();
