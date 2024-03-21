@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,11 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/SearchDB")
 public class SearchDB extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static String url = "jdbc:mysql://ec2-3-131-137-17.us-east-2.compute.amazonaws.com:3306/TechExerciseDB" + "?" + //
-		         "allowPublicKeyRetrieval=true" + "&" + "useSSL=false";
-	static String user = "newmysqlremoteuser2"; // e.g., newmysqlremoteuser
-	static String password = "mypassword"; // e.g., mypassword
-	static Connection connection = null;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -53,7 +48,6 @@ public class SearchDB extends HttpServlet {
 	 
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
-	    connection = null;
 
 	    try {
 	    	DBConnection.getDBConnection(getServletContext());
@@ -111,6 +105,7 @@ public class SearchDB extends HttpServlet {
 	    		}
 	    	}
 	    	catch (Exception Ex) {
+	    		Ex.printStackTrace();
 	    	}
 	    }
 	}

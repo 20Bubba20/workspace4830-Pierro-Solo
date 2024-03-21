@@ -8,7 +8,7 @@ public class UtilProp {
    static Properties prop = new Properties();
 
    public static void loadProperty(ServletContext servletContext) throws Exception {
-      String filePath = "\WEB-INF\config.properties";
+      String filePath = "/WEB-INF/config.properties";
       InputStream is = servletContext.getResourceAsStream(filePath);
 
       System.out.println("[DBG] Loaded: " + new File(filePath).getAbsolutePath());

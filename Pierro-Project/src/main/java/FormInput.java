@@ -1,10 +1,7 @@
-
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,19 +32,20 @@ public class FormInput extends HttpServlet {
         //String semester = rs.getString("SEMESTER");
         //String email = rs.getString("EMAIL");
         //String college = rs.getString("COLLEGE");
-		String fullName = request.getParameter("FULLNAME");
-		String semester = request.getParameter("SEMESTER");
-		String email = request.getParameter("EMAIL");
-		String college = request.getParameter("College");
+		String fullName = request.getParameter("fullName");
+		String semester = request.getParameter("semester");
+		String email = request.getParameter("email");
+		String college = request.getParameter("college");
 		
 		Connection connection = null;
-		String insertSql = " INSERT INTO TechExerciseDB(ID, FULLNAME, SEMESTER, EMAIL, COLLEGE) values (default, ?, ?, ?, ?)";
+		String insertSql = " INSERT INTO PROGRESSTRACKERTABLE(ID, FULLNAME, SEMESTER, EMAIL, COLLEGE) values (default, ?, ?, ?, ?)";
 		
 		try {
 			DBConnection.getDBConnection(getServletContext());
 			connection = DBConnection.connection;
 			//connection = DriverManager.getConnection(url, user, password);
 			PreparedStatement statement = connection.prepareStatement(insertSql);
+			//fullName = "Jackson Cunningham";
 			statement.setString(1, fullName);
 			statement.setString(2, semester);
 			statement.setString(3, email);
