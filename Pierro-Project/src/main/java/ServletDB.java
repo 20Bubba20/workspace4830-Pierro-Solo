@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -55,7 +56,7 @@ password=mypassword
          String selectSQL = "SELECT * FROM PROGRESSTRACKERTABLE";// WHERE MYUSER LIKE ?";
          // String theUserName = "user%";
          // response.getWriter().println(selectSQL + "<br>");
-         response.getWriter().println("---------------------------------------------------<br>");
+         response.getWriter().println("---------------------------------------------------------<br>");
          PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
          // preparedStatement.setString(1, theUserName);
          ResultSet rs = preparedStatement.executeQuery();
