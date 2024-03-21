@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.cj.util.Util;
+
+import util.UtilDB;
+
 /**
  * Servlet implementation class FormInput
  */
@@ -32,10 +36,13 @@ public class FormInput extends HttpServlet {
         //String semester = rs.getString("SEMESTER");
         //String email = rs.getString("EMAIL");
         //String college = rs.getString("COLLEGE");
+		System.out.println(request);
 		String fullName = request.getParameter("fullName");
 		String semester = request.getParameter("semester");
 		String email = request.getParameter("email");
 		String college = request.getParameter("college");
+		
+		UtilDB.createStudents(fullName, semester, college, email);
 		
 		Connection connection = null;
 		String insertSql = " INSERT INTO PROGRESSTRACKERTABLE(ID, FULLNAME, SEMESTER, EMAIL, COLLEGE) values (default, ?, ?, ?, ?)";

@@ -1,15 +1,15 @@
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import datamodel.Student;
+import util.UtilDB;
 
 /**
  * Servlet implementation class SearchDB
@@ -29,93 +29,42 @@ public class SearchDB extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String keyword = request.getParameter("keyword");
-	    search(keyword, response);
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-	void search(String keyword, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
-	            "transitional//en\">\n"; //
-	      		out.println(docType + //
-	            "<html>\n" + //
-	            "<head><title>" + "Progress Tracker Result"  + "</title></head>\n" + //
-	            "<body bgcolor=\"#f0f0f0\">\n" + //
-	            "<h1 align=\"center\">" + "Progress Tracker Result" + "</h1>\n");
-	 
-	    Connection connection = null;
-	    PreparedStatement preparedStatement = null;
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
 
-	    try {
-	    	DBConnection.getDBConnection(getServletContext());
-	    	connection = DBConnection.connection;
-	    	
-	    	String selectSQL;
-	    	if (keyword.isEmpty()) {
-	    		selectSQL = "SELECT * FROM PROGRESSTRACKERTABLE";
-	    		preparedStatement = connection.prepareStatement(selectSQL);
-	    	}
-	    	else {
-	    		selectSQL = "SELECT * FROM PROGRESSTRACKERTABLE WHERE " + keyword + " LIKE ?";
-	    		String searchTerm = keyword + "%";
-			    preparedStatement = connection.prepareStatement(selectSQL);
-			    preparedStatement.setString(1, searchTerm);
-	    	}
-	    	ResultSet rs = preparedStatement.executeQuery();
-	    	
-	    	while (rs.next()) {
-	    		int id = rs.getInt("id");
-	    		String fullName = rs.getString("FULLNAME").trim();
-	    		String semester = rs.getString("SEMESTER").trim();
-	    		String email = rs.getString("EMAIL").trim();
-	    		String college = rs.getString("COLLEGE").trim();
-	    		
-	    		if (keyword.isEmpty() || fullName.contains(keyword)) {
-	    			out.println("ID: " + id + ", ");
-	    			out.println("Full Name: " + fullName + ",");
-	    			out.println("Semester: " + semester + ",");
-	    			out.println("Email: " + email + ",");
-	    			out.println("College: " + college + "<br>");
-	    		}
-	    	}
-	    	out.println("<a href=/TechExercise/FormInput.html>Search Data</a><br>");
-		    out.println("</body></html>");
-		    rs.close();
-		    preparedStatement.close();
-		    connection.close();
+        // #1
+        UtilDB.createStudents("Jason Cooney", "5", "JCooney@unk.edu", "College of Health");
+        UtilDB.createStudents("Mariana Gibson", "10", "MGibson@unmc", "College of Medical Studies");
+        
+        // #2
+        retrieveDisplayData(response.getWriter());
+     }
 
-	    }
-	    catch (Exception Ex){
-	    	Ex.printStackTrace();
-	    }
-	    finally {
-	    	try {
-	    		if (preparedStatement != null) {
-	    			preparedStatement.close();
-	    		}
-	    	}
-	    	catch (Exception Ex) {
-	    	}
-	    	try {
-	    		if (connection != null) {
-	    			connection.close();
-	    		}
-	    	}
-	    	catch (Exception Ex) {
-	    		Ex.printStackTrace();
-	    	}
-	    }
-	}
-	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+     void retrieveDisplayData(PrintWriter out) {
+        String title = "Database Result";
+        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
+              "transitional//en\">\n"; //
+        out.println(docType + //
+              "<html>\n" + //
+              "<head><title>" + title + "</title></head>\n" + //
+              "<body bgcolor=\"#f0f0f0\">\n" + //
+              "<h1 align=\"center\">" + title + "</h1>\n");
+        out.println("<ul>");
+        List<Student> listStudents = UtilDB.listStudents();
+        for (int i = 0; i < listStudents.size(); i++) {
+    	    System.out.printf("[DBG] %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 
+      			listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
+      			listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
+    	    
+    	    out.printf("<li> %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 
+      			listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
+      			listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
+        }
+        out.println("</ul>");
+        out.println("</body></html>");
+     }
 
-}
+     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+     }
+  }
