@@ -65,7 +65,7 @@ public class ServletHibernateDB extends HttpServlet {
     				 listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
     				 listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
   		
-    		 out.printf("<li> %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 
+    		 out.printf("<li> %s, %d, %s, %s", //listStudents.get(i).getID().intValue(), 
     				 listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
     				 listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
     	 }
