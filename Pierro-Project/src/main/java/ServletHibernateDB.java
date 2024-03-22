@@ -58,7 +58,7 @@ public class ServletHibernateDB extends HttpServlet {
         out.println("<a href=/" + Info.projName + "/" + Info.searchWebName + ">Search Data</a> <br>");
         out.println("</body></html>");
      }
-
+    
      void display(List<Student> listStudents, PrintWriter out) {
     	 for (int i = 0; i < listStudents.size(); i++) {
     		 System.out.printf("[DBG] %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 

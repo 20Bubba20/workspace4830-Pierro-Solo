@@ -33,10 +33,23 @@ public class InsertHibernate extends HttpServlet {
 		String semester = request.getParameter("semester").trim();
 		String email = request.getParameter("email").trim();
 		String college = request.getParameter("college").trim();
+		PrintWriter out = response.getWriter();
+		if (fullName.contains("<") || fullName.contains(">") || email.contains("<") || email.contains(">") ||
+				college.contains("<") || college.contains(">")) {
+			out.println("Please do not use < or > in the text fields");
+			return;
+		}
+		try {
+			Integer.parseInt(semester);
+		}
+		catch (Exception Ex) {
+			out.println("Please only submit numbers in the semester text box");
+			return;
+		}
 		UtilDB.createStudents(fullName, semester, college, email);
 
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
+		
 		String title = "Database Result";
 		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; 
 		out.println(docType + 
