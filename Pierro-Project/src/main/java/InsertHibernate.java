@@ -34,6 +34,11 @@ public class InsertHibernate extends HttpServlet {
 		String email = request.getParameter("email").trim();
 		String college = request.getParameter("college").trim();
 		PrintWriter out = response.getWriter();
+		if (fullName == null || semester == null || email == null || college == null ||
+				fullName.isBlank() || semester.isBlank() || email.isBlank() || college.isBlank()) {
+			out.println("Please fill provide text in every box");
+			return;
+		}
 		if (fullName.contains("<") || fullName.contains(">") || email.contains("<") || email.contains(">") ||
 				college.contains("<") || college.contains(">")) {
 			out.println("Please do not use < or > in the text fields");
