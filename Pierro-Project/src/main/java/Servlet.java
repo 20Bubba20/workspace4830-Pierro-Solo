@@ -36,17 +36,15 @@ public class Servlet extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		//response.getWriter().append("Hello World!");
 		response.setContentType("text/html");
-	      PrintWriter out = response.getWriter();
-	      String title = "Hello World";
-	      String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
-	      out.println(docType + //
-	            "<html>\n" + //
+		PrintWriter out = response.getWriter();
+		String title = "Hello World";
+		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+		out.println(docType + //
+				"<html>\n" + //
 	            "<head><title>" + title + "</title></head>\n" + //
 	            "<body bgcolor=\"#f0f0f0\">\n" + //
 	            "<h2 align=\"center\">" + title + "</h2>\n");
-
-	      
-	      out.println("</body></html>");
+		out.println("</body></html>");
 	}
 
 	/**

@@ -30,24 +30,30 @@ public class SearchDB extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-
-        // #1
-        UtilDB.createStudents("Jason Cooney", "5", "JCooney@unk.edu", "College of Health");
-        UtilDB.createStudents("Mariana Gibson", "10", "MGibson@unmc", "College of Medical Studies");
-        
-        // #2
-        retrieveDisplayData(response.getWriter());
+		PrintWriter out = response.getWriter();
+		String title = "Oops, Wrong Site";
+		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+		out.println(docType + //
+				"<html>\n" + //
+	            "<head><title>" + title + "</title></head>\n" + //
+	            "<body bgcolor=\"#f0f0f0\">\n" + //
+	            "<h2 align=\"center\">" + title + "</h2>\n" +
+	            "<p> Go to: ./SearchHibernateDB.html </p>\n");
+				
+	      
+		out.println("</body></html>");
+    	//response.setContentType("text/html");
+        //retrieveDisplayData(response.getWriter());
      }
 
      void retrieveDisplayData(PrintWriter out) {
         String title = "Database Result";
-        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
-              "transitional//en\">\n"; //
-        out.println(docType + //
-              "<html>\n" + //
-              "<head><title>" + title + "</title></head>\n" + //
-              "<body bgcolor=\"#f0f0f0\">\n" + //
+        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + 
+              "transitional//en\">\n"; 
+        out.println(docType + 
+              "<html>\n" + 
+              "<head><title>" + title + "</title></head>\n" + 
+              "<body bgcolor=\"#f0f0f0\">\n" + 
               "<h1 align=\"center\">" + title + "</h1>\n");
         out.println("<ul>");
         List<Student> listStudents = UtilDB.listStudents();

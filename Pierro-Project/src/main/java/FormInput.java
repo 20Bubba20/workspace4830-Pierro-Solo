@@ -9,33 +9,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mysql.cj.util.Util;
-
 import util.UtilDB;
+
+/**
+ * NO LONGER USED. 
+ */
 
 /**
  * Servlet implementation class FormInput
  */
 @WebServlet("/FormInput")
 public class FormInput extends HttpServlet {
-	private static final long serialVersionUID = 1L;  /**
-     * @see HttpServlet#HttpServlet()
+	private static final long serialVersionUID = 1L;  
+	/**
+	 * @see HttpServlet#HttpServlet()
      */
-    public FormInput() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	public FormInput() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-        //String username = rs.getString("FULLNAME");
-        //String semester = rs.getString("SEMESTER");
-        //String email = rs.getString("EMAIL");
-        //String college = rs.getString("COLLEGE");
+		doPost(request, response);
 		System.out.println(request);
 		String fullName = request.getParameter("fullName");
 		String semester = request.getParameter("semester");
@@ -50,9 +47,7 @@ public class FormInput extends HttpServlet {
 		try {
 			DBConnection.getDBConnection(getServletContext());
 			connection = DBConnection.connection;
-			//connection = DriverManager.getConnection(url, user, password);
 			PreparedStatement statement = connection.prepareStatement(insertSql);
-			//fullName = "Jackson Cunningham";
 			statement.setString(1, fullName);
 			statement.setString(2, semester);
 			statement.setString(3, email);
@@ -87,8 +82,19 @@ public class FormInput extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
+		PrintWriter out = response.getWriter();
+		String title = "Oops, Wrong Site";
+		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+		out.println(docType + //
+				"<html>\n" + //
+	            "<head><title>" + title + "</title></head>\n" + //
+	            "<body bgcolor=\"#f0f0f0\">\n" + //
+	            "<h2 align=\"center\">" + title + "</h2>\n" +
+	            "<p> Go to: ./InsertHibernate.html </p>\n");
+				
+	      
+	      out.println("</body></html>");
 	}
 
 }

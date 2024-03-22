@@ -23,7 +23,6 @@ public class InsertHibernate extends HttpServlet {
      */
     public InsertHibernate() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -36,25 +35,25 @@ public class InsertHibernate extends HttpServlet {
 		String college = request.getParameter("college").trim();
 		UtilDB.createStudents(fullName, semester, college, email);
 
-      response.setContentType("text/html");
-      PrintWriter out = response.getWriter();
-      String title = "Database Result";
-      String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; //
-      out.println(docType + //
-            "<html>\n" + //
-            "<head><title>" + title + "</title></head>\n" + //
-            "<body bgcolor=\"#f0f0f0\">\n" + //
-	        "<h1 align=\"center\">" + title + "</h1>\n" +
-	        "<ul>\n" + 
-	        "<li><b>Full Name</b>" + fullName + "\n" +
-	        "<li><b>Semester</b>" + semester + "\n" +
-	        "<li><b>Email</b>" + email + "\n" +
-	        "<li><b>College</b>" + college + "\n</ul>\n");
-      out.println("<a href=/" + Info.projName + "/" + Info.searchWebName + ">Search Data</a> <br>");
-      out.println("</body></html>");
-   }
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		String title = "Database Result";
+		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; 
+		out.println(docType + 
+				"<html>\n" + 
+				"<head><title>" + title + "</title></head>\n" +
+				"<body bgcolor=\"#f0f0f0\">\n" +
+				"<h1 align=\"center\">" + title + "</h1>\n" +
+				"<ul>\n" + 
+				"<li><b>Full Name</b>" + fullName + "\n" +
+				"<li><b>Semester</b>" + semester + "\n" +
+				"<li><b>Email</b>" + email + "\n" +
+				"<li><b>College</b>" + college + "\n</ul>\n");
+		out.println("<a href=/" + Info.projName + "/" + Info.searchWebName + ">Search Data</a> <br>");
+		out.println("</body></html>");
+    }
 
-   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      doGet(request, response);
-   }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	doGet(request, response);
+    }
 }

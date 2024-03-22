@@ -36,7 +36,6 @@ public class ServletHibernateDB extends HttpServlet {
         	keyword = request.getParameter("keyword").trim();
         }
     	
-
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String title = "Database Result";
@@ -61,15 +60,15 @@ public class ServletHibernateDB extends HttpServlet {
      }
 
      void display(List<Student> listStudents, PrintWriter out) {
-  	for (int i = 0; i < listStudents.size(); i++) {
-  		System.out.printf("[DBG] %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 
-  		listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
-  		listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
+    	 for (int i = 0; i < listStudents.size(); i++) {
+    		 System.out.printf("[DBG] %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 
+    				 listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
+    				 listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
   		
-  		out.printf("<li> %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 
-  		listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
-  		listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
-         }
+    		 out.printf("<li> %d, %s, %d, %s, %s", listStudents.get(i).getID().intValue(), 
+    				 listStudents.get(i).getFullName(), listStudents.get(i).getSemester().intValue(),
+    				 listStudents.get(i).getEmail(), listStudents.get(i).getCollege());
+    	 }
      }
 
      protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
